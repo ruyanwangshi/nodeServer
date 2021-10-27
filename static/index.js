@@ -108,6 +108,8 @@ class ReadFile {
           filename: path.basename(dirList[i], `.${this.fileType}`),
           ext: this.fileType,
           text: file,
+          createTime: stat.ctime,
+          modifyTime: stat.mtime,
           label: label,
         })
         // 所有文件列表
@@ -115,6 +117,8 @@ class ReadFile {
           filename: path.basename(dirList[i], `.${this.fileType}`),
           ext: this.fileType,
           text: file,
+          createTime: stat.ctime,
+          modifyTime: stat.mtime,
           label: label,
         })
       }
@@ -144,7 +148,13 @@ async function getMdFile(path, current) {
   const ReadMdFile = new ReadFile(readFilePath)
   // return ReadMdFile.readAllFile()
   await ReadMdFile.readAllFile()
-  return ReadMdFile.getPageData(current - 1)
+  const pageData = ReadMdFile.getPageData(current - 1)
+  const result = {
+    pageData: pageData,
+    total: ReadMdFile.allfileList.length,
+    current: current,
+  }
+  return result
 }
 
 // function ReadMdFile() {
