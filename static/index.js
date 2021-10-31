@@ -6,9 +6,9 @@ function resolvePath(...resolve) {
 }
 
 class ReadFile {
-  constructor(resolvePath = 'mdfile', fileType = 'md', current = 1, pageSize = 2, recursionFlag = false, fileFlag = true) {
+  constructor(dirPath = 'mdfile', fileType = 'md', current = 1, pageSize = 2, recursionFlag = false, fileFlag = true) {
     // 需要加载static文件夹下的文件路径中间名称
-    this.resolvePath = resolvePath
+    this.resolvePath = resolvePath(`./${dirPath}`)
     // 加载的文件类型
     this.fileType = fileType
     // 需要加载文件和文件名称
@@ -52,6 +52,14 @@ class ReadFile {
   // 读取文件
   readfile(path) {
     return fs.promises.readFile(path, 'utf-8')
+  }
+
+  // 读取文件列表
+  async readdirList() {
+    const dirList = [];
+    const res = await this.readdir(this.resolvePath);
+    console.log(res);
+    return dirList
   }
 
   async recursion(dirList, filePath, preDir) {
@@ -144,8 +152,8 @@ class ReadFile {
 }
 
 async function getMdFile(path, current) {
-  const readFilePath = resolvePath(`./${path}`)
-  const ReadMdFile = new ReadFile(readFilePath)
+  // const readFilePath = resolvePath(`./${path}`)
+  const ReadMdFile = new ReadFile(path)
   // return ReadMdFile.readAllFile()
   await ReadMdFile.readAllFile()
   const pageData = ReadMdFile.getPageData(current - 1)
@@ -155,6 +163,11 @@ async function getMdFile(path, current) {
     current: current,
   }
   return result
+}
+
+async function getTags(path) {
+  const ReadMdFile = new ReadFile(path)
+  return ReadMdFile.readdirList()
 }
 
 // function ReadMdFile() {
@@ -185,4 +198,4 @@ async function getMdFile(path, current) {
 //   })
 // }
 
-module.exports = { getMdFile }
+module.exports = { getMdFile, getTags }

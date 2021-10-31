@@ -2,7 +2,7 @@ const KoaRouter = require('koa-router')
 
 const router = new KoaRouter()
 
-const { getMdFile } = require('../static')
+const { getMdFile, getTags } = require('../static')
 
 router.get('/md', async (ctx, next) => {
   try {
@@ -16,6 +16,7 @@ router.get('/md', async (ctx, next) => {
       success: true,
     }
   } catch (e) {
+    console.log(e)
     ctx.body = {
       httpCode: 400,
       Message: '请求失败',
@@ -25,11 +26,10 @@ router.get('/md', async (ctx, next) => {
   next()
 })
 
-router.get('/info', async (ctx, next) => {
+router.get('/tags', async (ctx, next) => {
   try {
-    const { current } = ctx.query
-    const res = await getMdFile('mdfile', +current)
-    // console.log(res)
+    const res = await getTags('mdfile')
+    console.log(res)
     ctx.body = {
       httpCode: 200,
       result: res,

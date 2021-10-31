@@ -1,5 +1,6 @@
 const path = require('path')
 const koa = require('koa')
+require('./mysql')
 const logger = require('koa-logger')
 const koaBody = require('koa-body')
 const server = require('koa-static')
