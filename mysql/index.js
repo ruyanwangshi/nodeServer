@@ -1,5 +1,6 @@
 const { Sequelize, define } = require('sequelize')
 const config = require('./config')
+const { getMdFileList } = require('../static')
 
 initMySql()
 
@@ -48,21 +49,44 @@ async function initMySql() {
   console.log('获取对应表->', mdListTable)
   // mdListTable.save()
   // console.log(mdListTable)
+
+  // filename: 'cdn描述',
+  //   ext: 'md',
+  //   text: '### cdn 称之为内容分发网络（Content Delivery Network 或 Content Distribution Network， 缩写：CDN）\r\n' +
+  //     '\r\n' +
+  //     '\r\n' +
+  //     '> > 它是指通过相互链接的网络系统，利用最靠近每个用户的服务器；\r\n' +
+  //     '> > 更快、更可靠的将图片、音乐、视频、应用程序及其它文件发送给用户；\r\n' +
+  //     '> > 来提供高性能、可扩展性及低成本的网络内容传递给用户；\r\n' +
+  //     '\r\n' +
+  //     '### 在开发中，使用 cdn 的方式：\r\n' +
+  //     '\r\n' +
+  //     '> 打包的所有静态资源，放到 cdn 服务器，用户所有资源都是通过 cdn 服务器加载的；\r\n' +
+  //     '> 一些第三方资源放到 cdn 服务器上；\r\n' +
+  //     '    ',
+  //   createTime: 2021-10-27T14:48:38.121Z,
+  //   modifyTime: 2021-10-27T14:48:38.121Z,
+  //   label: [ 'webpack学习' ]
+  const res = await getMdFileList('mdfile')
+  console.log(res)
+  for (let key in res) {
+    res[key].dirContent.forEach(console.log)
+  }
   sequelize.sync()
   // const now = Date.now()
-  mdListTable
-    .create({
-      id: 123,
-      mdId: 123,
-      createTime: '123',
-      fileName: '123',
-      label: ['123'],
-      content: '123',
-    })
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+  // mdListTable
+  //   .create({
+  //     id: 123,
+  //     mdId: 123,
+  //     createTime: '123',
+  //     fileName: '123',
+  //     label: ['123'],
+  //     content: '123',
+  //   })
+  //   .then((res) => {
+  //     console.log(res)
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
 }

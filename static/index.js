@@ -56,9 +56,9 @@ class ReadFile {
 
   // 读取文件列表
   async readdirList() {
-    const dirList = [];
-    const res = await this.readdir(this.resolvePath);
-    console.log(res);
+    const dirList = []
+    const res = await this.readdir(this.resolvePath)
+    console.log(res)
     return dirList
   }
 
@@ -165,6 +165,13 @@ async function getMdFile(path, current) {
   return result
 }
 
+async function getMdFileList(path) {
+  const ReadMdFile = new ReadFile(path)
+  // return ReadMdFile.readAllFile()
+  await ReadMdFile.readAllFile()
+  return ReadMdFile.fileObj
+}
+
 async function getTags(path) {
   const ReadMdFile = new ReadFile(path)
   return ReadMdFile.readdirList()
@@ -198,4 +205,4 @@ async function getTags(path) {
 //   })
 // }
 
-module.exports = { getMdFile, getTags }
+module.exports = { getMdFile, getTags, getMdFileList }
