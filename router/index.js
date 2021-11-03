@@ -2,68 +2,24 @@ const KoaRouter = require('koa-router')
 
 const router = new KoaRouter()
 
-const { getMdFile, getTags } = require('../static')
+const getmd = require('./md')
+const gettags = require('./tags')
 
-router.get('/md', async (ctx, next) => {
-  try {
-    const { current } = ctx.query
-    const res = await getMdFile('mdfile', +current)
-    // console.log(res)
-    ctx.body = {
-      httpCode: 200,
-      result: res,
-      Message: '请求成功',
-      success: true,
-    }
-  } catch (e) {
-    console.log(e)
-    ctx.body = {
-      httpCode: 400,
-      Message: '请求失败',
-      success: false,
-    }
-  }
-  next()
-})
+const routes = [
+  {
+    method: 'get',
+    path: '/md',
+    control: getmd,
+  },
+  {
+    method: 'get',
+    path: '/tags',
+    control: gettags,
+  },
+]
 
-router.get('/tags', async (ctx, next) => {
-  try {
-    const res = await getTags('mdfile')
-    console.log(res)
-    ctx.body = {
-      httpCode: 200,
-      result: res,
-      Message: '请求成功',
-      success: true,
-    }
-  } catch (e) {
-    ctx.body = {
-      httpCode: 400,
-      Message: '请求失败',
-      success: false,
-    }
-  }
-  next()
-})
-
-// router.post('/md', async (ctx, next) => {
-//   try {
-//     const res = await getMdFile('mdfile')
-//     // console.log(res)
-//     ctx.body = {
-//       httpCode: 200,
-//       result: res,
-//       Message: '请求成功',
-//       success: true,
-//     }
-//   } catch (e) {
-//     ctx.body = {
-//       httpCode: 400,
-//       Message: '请求失败',
-//       success: false,
-//     }
-//   }
-//   next()
-// })
+for (let i = 0, l = routes.length; i < l; i += 1) {
+  router[routes[i].method](routes[i].path,routes[i].control)
+}
 
 module.exports = router
