@@ -15,19 +15,30 @@ app.use(cors())
 app.use(koaBody())
 app.use(server(path.join(__dirname, '/public')))
 
-initMySql()
-  .then((sequelize) => {
-    app.use(async (ctx,next)=> {
-      ctx.state = sequelize
-      await next()
-    })
-    app.use(Router.routes())
-    app.use(Router.allowedMethods())
+// initMySql()
+//   .then((sequelize) => {
+//     app.use(async (ctx,next)=> {
+//       ctx.state = sequelize
+//       await next()
+//     })
+//     app.use(Router.routes())
+//     app.use(Router.allowedMethods())
 
-    app.listen(3000, () => {
-      console.log('192.168.31.12:3000')
-    })
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+//     app.listen(3000, () => {
+//       console.log('192.168.31.12:3000')
+//     })
+//   })
+//   .catch((err) => {
+//     console.log(err)
+//   })
+
+// app.use(async (ctx, next) => {
+//   ctx.state = sequelize
+//   await next()
+// })
+app.use(Router.routes())
+app.use(Router.allowedMethods())
+
+app.listen(3000, () => {
+  console.log('192.168.31.12:3000')
+})
