@@ -4,6 +4,7 @@ const router = new KoaRouter()
 
 const getmd = require('./md')
 const gettags = require('./tags')
+const setMdFile = require('./wirteMd')
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     method: 'get',
     path: '/tags',
     control: gettags,
+  },
+  {
+    method: 'post',
+    path: '/setMdFile',
+    control: setMdFile,
   },
 ]
 
