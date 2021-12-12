@@ -32,13 +32,14 @@ app.use(server(path.join(__dirname, '/public')))
 //     console.log(err)
 //   })
 
-// app.use(async (ctx, next) => {
-//   ctx.state = sequelize
-//   await next()
-// })
+app.use(async (ctx, next) => {
+  console.log(1111111111111)
+  // ctx.state = sequelize
+  await next()
+})
 app.use(Router.routes())
 app.use(Router.allowedMethods())
 
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log('192.168.31.12:3000')
 })
