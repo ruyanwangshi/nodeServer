@@ -6,6 +6,7 @@ async function md(ctx, next) {
   try {
     const { current } = ctx.query
     const res = await getMdFile('mdfile', +current)
+    console.log(ctx);
     ctx.body = {
       httpCode: 200,
       result: res,

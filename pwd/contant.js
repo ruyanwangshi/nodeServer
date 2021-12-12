@@ -1,3 +1,3 @@
 module.exports = {
-    pwd: 'why0117'
+    pwd: 'xxx' // 密码
 }
