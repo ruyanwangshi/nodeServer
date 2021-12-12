@@ -26,6 +26,8 @@ class ReadFile {
     // 所有文件夹列表
     this.allfileList = []
 
+    
+
     this.pageData = []
   }
 
@@ -68,7 +70,6 @@ class ReadFile {
     for (let i = 0, l = dirList.length; i < l; i += 1) {
       const pathName = filePath ? `${filePath}/${dirList[i]}` : dirList[i] // 当前读到的pathname
       const rp = resolvePath(`${this.resolvePath}/${pathName}`) // 读取文件地址
-
       stat = fs.lstatSync(rp)
 
       // 如果是文件夹
@@ -111,6 +112,7 @@ class ReadFile {
         }
       } else {
         const file = await this.readfile(rp)
+
         const label = filePath.split('/') // 标签
         filelist.push({
           filename: path.basename(dirList[i], `.${this.fileType}`),
@@ -140,13 +142,20 @@ class ReadFile {
   // 递归判断读取是文件夹还是文件循环读取
   async readAllFile() {
     const dirList = await this.readdir(this.resolvePath)
-    await this.recursion(dirList)
+    const newDirList = []
+    dirList.forEach((item) => {
+      const fileType = fs.lstatSync(resolvePath(`${this.resolvePath}/${item}`))
+      if (fileType.isDirectory()) {
+        newDirList.push(item)
+      }
+    })
+
+    await this.recursion(newDirList)
     return this.fileObj
   }
 
   // 获取对应当前页数据
   getPageData(current) {
-    console.log()
     return this.pageData[current]
   }
 }

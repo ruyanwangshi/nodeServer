@@ -10,9 +10,10 @@ const bodyparser = require('koa-bodyparser')
 const initMySql = require('./mysql')
 const app = new koa()
 app.use(logger())
-app.use(bodyparser())
+
 app.use(cors())
-app.use(koaBody())
+app.use(koaBody()) // 这个必须是在bodyparser中间件之前使用
+// app.use(bodyparser())
 app.use(server(path.join(__dirname, '/public')))
 
 // initMySql()
@@ -32,11 +33,11 @@ app.use(server(path.join(__dirname, '/public')))
 //     console.log(err)
 //   })
 
-app.use(async (ctx, next) => {
-  console.log(1111111111111)
-  // ctx.state = sequelize
-  await next()
-})
+// app.use(async (ctx, next) => {
+//   console.log(1111111111111)
+//   // ctx.state = sequelize
+//   await next()
+// })
 app.use(Router.routes())
 app.use(Router.allowedMethods())
 

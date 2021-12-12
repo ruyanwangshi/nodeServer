@@ -4,7 +4,8 @@ const router = new KoaRouter()
 
 const getmd = require('./md')
 const gettags = require('./tags')
-const setMdFile = require('./wirteMd')
+const setMdFile = require('./setMdFile')
+
 
 const routes = [
   {

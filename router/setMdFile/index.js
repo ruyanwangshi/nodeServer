@@ -1,7 +1,9 @@
+const writeFile = require('../../utils/write')
+
 async function setMdFile(ctx, next) {
-    console.log(222)
   try {
-    // console.log(ctx)
+    const mdFileContent = ctx.request.body;
+    await writeFile(mdFileContent)
     ctx.body = {
       httpCode: 200,
       result: '测试',
