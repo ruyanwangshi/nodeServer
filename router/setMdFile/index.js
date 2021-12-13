@@ -3,6 +3,17 @@ const writeFile = require('../../utils/write')
 async function setMdFile(ctx, next) {
   try {
     const mdFileContent = ctx.request.body;
+    const { fileName, mdFile, typeName } = mdFileContent;
+    // 判断必传字段是否有
+    if(!fileName || !mdFile || !typeName) {
+      ctx.body = {
+        httpCode: 400,
+        result: '请输入必填项',
+        Message: '请求成功',
+        success: true,
+      }
+      return
+    }
     await writeFile(mdFileContent)
     ctx.body = {
       httpCode: 200,
