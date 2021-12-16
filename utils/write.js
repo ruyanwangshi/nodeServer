@@ -3,6 +3,8 @@ const resolvePath = require('./resolvePath')
 
 const mdfilePath = 'static/mdfile'
 
+console.log()
+
 // 写入文件工具函数
 module.exports = function write(fileContent = {}) {
   const { fileName, mdFile, typeName } = fileContent
