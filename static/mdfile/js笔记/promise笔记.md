@@ -16,7 +16,7 @@
 ### promise链式调用图
 > 可以用 promise.then()，promise.catch() 和 promise.finally() 这些方法将进一步的操作与一个变为已敲定状态的 promise 关联起来。这些方法还会返回一个新生成的 promise 对象，这个对象可以被非强制性的用来做链式调用
 
-![promise链式调用](http://192.168.144.210:3002/image/promise.png)    
+![promise链式调用](http://192.168.31.12:3001/image/promise.png)    
 
 ```javascript
     const pr = Promise.resolve(123)
