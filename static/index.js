@@ -231,6 +231,7 @@ async function getTypeFileList(path) {
     }
   })
 }
+// test
 
 // function ReadMdFile() {
 //   return new Promise((resolve, reject) => {
