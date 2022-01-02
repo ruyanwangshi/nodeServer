@@ -1,6 +1,6 @@
 const { getTypeFileList } = require('../../static')
 
-async function Tags(ctx, next) {
+async function GetTypeFileList(ctx, next) {
   const { name } = ctx.request.body
   try {
     const res = await getTypeFileList(`mdfile/${name}`)
@@ -29,4 +29,4 @@ async function Tags(ctx, next) {
   next()
 }
 
-module.exports = Tags
+module.exports = GetTypeFileList

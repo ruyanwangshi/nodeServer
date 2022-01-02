@@ -6,6 +6,7 @@ const getmd = require('./md')
 const gettags = require('./tags')
 const setMdFile = require('./setMdFile')
 const getFileList = require('./typeFileList')
+const getFileInfo = require('./fileInfo')
 
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
     method: 'post',
     path: '/getFileList',
     control: getFileList,
+  },
+  {
+    method: 'post',
+    path: '/getFileInfo',
+    control: getFileInfo,
   },
 ]
 

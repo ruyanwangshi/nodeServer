@@ -222,16 +222,31 @@ async function getTypeFileList(path) {
   const ReadMdFile = new ReadFile(path)
   const typeFileList = await ReadMdFile.readAllFile(true)
   return typeFileList.map(item => {
+    const fileName = item.split('.')
     const fileInfo = fs.statSync(resolvePath(path,item))
-    console.log(fileInfo)
     return {
       ctime: fileInfo.ctime,
-      name: item.split('.')[0],
-      type: item.split('.')[1]
+      name: fileName[0],
+      type: fileName[1]
     }
   })
 }
-// test
+
+// 获取标签列表
+async function getFileInfo(path, file) {
+  const ReadMdFile = new ReadFile(path)
+  const readFilePath = resolvePath(path,file.tag,`${file.name}.${file.filetype}`)
+  const result = await ReadMdFile.readfile(readFilePath)
+  const fileInfo = fs.statSync(readFilePath)
+  return {
+    filename: file.name,
+    ext: file.filetype,
+    text: result,
+    createTime: fileInfo.ctime,
+    modifyTime: fileInfo.mtime,
+    label: file.tag,
+  }
+}
 
 // function ReadMdFile() {
 //   return new Promise((resolve, reject) => {
@@ -261,4 +276,4 @@ async function getTypeFileList(path) {
 //   })
 // }
 
-module.exports = { getMdFile, getTags, getMdFileList, getTypeFileList }
+module.exports = { getMdFile, getTags, getMdFileList, getTypeFileList, getFileInfo }
