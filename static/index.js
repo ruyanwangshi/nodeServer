@@ -26,8 +26,6 @@ class ReadFile {
     // 所有文件夹列表
     this.allfileList = []
 
-    
-
     this.pageData = []
   }
 
@@ -59,8 +57,36 @@ class ReadFile {
   // 读取文件列表
   async readdirList() {
     const dirList = []
-    const res = await this.readdir(this.resolvePath)
-    console.log(res)
+    const dir = await this.readdir(this.resolvePath)
+    await new Promise((resolve, reject) => {
+      let resIndex = 1
+      dir.forEach((item) => {
+        // 匹配当前文件路径
+        const path = resolvePath(this.resolvePath, item)
+        // 读取文件夹信息
+        const dirInfo = fs.statSync(path)
+        // 根据路径读取对应文件
+        this.readdir(path)
+          .then((res) => {
+            if (resIndex === dir.length) {
+              resolve()
+            } else {
+              if (!(res.length === 0)) {
+                dirList.push({
+                  name: item,
+                  mtime: dirInfo.mtime,
+                  ctime: dirInfo.ctime,
+                  articleSize: res.length
+                })
+              }
+            }
+            resIndex++
+          })
+          .catch((err) => {
+            console.log('readdirListError=>', err)
+          })
+      })
+    })
     return dirList
   }
 
@@ -140,8 +166,12 @@ class ReadFile {
   }
 
   // 递归判断读取是文件夹还是文件循环读取
-  async readAllFile() {
+  async readAllFile(dirFlag = false) {
     const dirList = await this.readdir(this.resolvePath)
+    // 是否只读取单个文件并返回
+    if(dirFlag) {
+      return dirList
+    }
     const newDirList = []
     dirList.forEach((item) => {
       const fileType = fs.lstatSync(resolvePath(`${this.resolvePath}/${item}`))
@@ -181,9 +211,25 @@ async function getMdFileList(path) {
   return ReadMdFile.fileObj
 }
 
+// 获取标签列表
 async function getTags(path) {
   const ReadMdFile = new ReadFile(path)
   return ReadMdFile.readdirList()
+}
+
+// 获取当前选中标签的文件信息
+async function getTypeFileList(path) {
+  const ReadMdFile = new ReadFile(path)
+  const typeFileList = await ReadMdFile.readAllFile(true)
+  return typeFileList.map(item => {
+    const fileInfo = fs.statSync(resolvePath(path,item))
+    console.log(fileInfo)
+    return {
+      ctime: fileInfo.ctime,
+      name: item.split('.')[0],
+      type: item.split('.')[1]
+    }
+  })
 }
 
 // function ReadMdFile() {
@@ -214,4 +260,4 @@ async function getTags(path) {
 //   })
 // }
 
-module.exports = { getMdFile, getTags, getMdFileList }
+module.exports = { getMdFile, getTags, getMdFileList, getTypeFileList }
