@@ -1,13 +1,19 @@
-const { getTypeFileList } = require('../../static')
+// const { getTypeFileList } = require('../../static')
+const mdListModel  = require('../../mysql/model/mdList')
 
 async function GetTypeFileList(ctx, next) {
-  const { name } = ctx.request.body
+  const { type } = ctx.request.body
   try {
-    const res = await getTypeFileList(`mdfile/${name}`)
-    if (name) {
+    // const res = await getTypeFileList(`mdfile/${type}`)
+    const result = await mdListModel.findAll({
+      where: {
+        type: type
+      }
+    })
+    if (type) {
       ctx.body = {
         httpCode: 200,
-        result: res,
+        result: result,
         Message: '请求成功',
         success: true,
       }

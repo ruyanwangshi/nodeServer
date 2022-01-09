@@ -1,4 +1,5 @@
-const { getFileInfo } = require('../../static')
+// const { getFileInfo } = require('../../static')
+const mdListModel = require('../../mysql/model/mdList')
 
 
 async function GetFileInfo(ctx, next) {

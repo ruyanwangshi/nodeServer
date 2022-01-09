@@ -32,6 +32,7 @@ class ReadFile {
   initAllfileListArray() {
     let newArray = []
     const copyFileList = JSON.parse(JSON.stringify(this.allfileList))
+    // console.log('this.PageSize=>', this.PageSize)
     try {
       if (copyFileList.length > 0) {
         for (let i = 0, l = copyFileList.length; i < l; i += this.PageSize) {
@@ -190,12 +191,13 @@ class ReadFile {
   }
 }
 
-async function getMdFile(path, current) {
+async function getMdFile(path, current, pageSize) {
   // const readFilePath = resolvePath(`./${path}`)
-  const ReadMdFile = new ReadFile(path)
+  const ReadMdFile = new ReadFile(path, null, null, pageSize)
   // return ReadMdFile.readAllFile()
   await ReadMdFile.readAllFile()
   const pageData = ReadMdFile.getPageData(current - 1)
+  // console.log(pageData)
   const result = {
     pageData: pageData,
     total: ReadMdFile.allfileList.length,

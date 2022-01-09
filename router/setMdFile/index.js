@@ -1,5 +1,5 @@
 const writeFile = require('../../utils/write')
-
+const { initCatalogue } = require('../../shelljs/squelize')
 async function setMdFile(ctx, next) {
   try {
     const mdFileContent = ctx.request.body;
@@ -14,7 +14,7 @@ async function setMdFile(ctx, next) {
       }
       return
     }
-    await writeFile(mdFileContent)
+    await writeFile(mdFileContent, initCatalogue)
     ctx.body = {
       httpCode: 200,
       result: '测试',

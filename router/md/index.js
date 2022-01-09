@@ -1,15 +1,23 @@
-const { getMdFile } = require('../../static')
-
+// const { getMdFile } = require('../../static')
+const mdListModel = require('../../mysql/model/mdList')
 
 async function md(ctx, next) {
-    
   try {
-    const { current } = ctx.query
-    const res = await getMdFile('mdfile', +current)
-    console.log(ctx);
+    const { current, pageSize } = ctx.query
+    const mdInfo = await Promise.all([mdListModel.count(),mdListModel.findAll({ 
+      limit: +pageSize, //每页10条
+      offset: (+current - 1) * +pageSize, //第x页*每页个数  
+    })])
     ctx.body = {
       httpCode: 200,
-      result: res,
+      result: {
+        data: mdInfo[1],
+        pageSizeInfo: {
+          current: current,
+          pageSize: pageSize,
+          total: mdInfo[0]
+        }
+      },
       Message: '请求成功',
       success: true,
     }

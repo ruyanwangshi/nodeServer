@@ -6,18 +6,20 @@ const mdfilePath = 'static/mdfile'
 console.log()
 
 // 写入文件工具函数
-module.exports = function write(fileContent = {}) {
+module.exports = function write(fileContent = {}, fn = (path) => {}) {
   const { fileName, mdFile, typeName } = fileContent
   if (!fileName) {
-    fileName = 'ceshi'
+    fileName = '默认文本'
   }
 
   function setMdFile(resolve, reject) {
     const filePath = `${mdfilePath}/${typeName}`
+    
     writeFile(`${resolvePath(filePath, fileName)}.md`, mdFile, 'utf8', (err) => {
       if (err) {
         reject(err)
       }
+      fn(filePath, fileName, 'md')
       resolve()
     })
   }
@@ -35,6 +37,7 @@ module.exports = function write(fileContent = {}) {
           promises.mkdir(resolvePath(filePath), { recursive: true }).then(() => {
             setMdFile(resolve, reject)
           })
+          
         }
       })
       .catch((err) => {

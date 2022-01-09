@@ -7,7 +7,7 @@ const server = require('koa-static')
 const cors = require('koa-cors')
 const Router = require('./router')
 const bodyparser = require('koa-bodyparser')
-const initMySql = require('./mysql')
+// const initMySql = require('./mysql')
 const app = new koa()
 app.use(logger())
 
@@ -18,28 +18,19 @@ app.use(server(path.join(__dirname, '/public')))
 
 // initMySql()
 //   .then((sequelize) => {
-//     app.use(async (ctx,next)=> {
-//       ctx.state = sequelize
+//     app.use(async (ctx, next) => {
+//       ctx.state.sequelize = sequelize
 //       await next()
 //     })
 //     app.use(Router.routes())
 //     app.use(Router.allowedMethods())
-
-//     app.listen(3000, () => {
-//       console.log('192.168.31.12:3000')
-//     })
 //   })
 //   .catch((err) => {
 //     console.log(err)
 //   })
 
-// app.use(async (ctx, next) => {
-//   console.log(1111111111111)
-//   // ctx.state = sequelize
-//   await next()
-// })
-app.use(Router.routes())
-app.use(Router.allowedMethods())
+  app.use(Router.routes())
+  app.use(Router.allowedMethods())
 
 app.listen(3001, () => {
   console.log('192.168.31.12:3000')
