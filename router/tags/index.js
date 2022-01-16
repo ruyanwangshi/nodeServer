@@ -5,9 +5,14 @@ const { sqInstance } = require('../../mysql/index')
 
 async function Tags(ctx, next) {
   try {
-    const res = await mdTypeModel.findAll({
-      attributes:['typeId', 'type', 'cTime', 'mTime', 'articles']
+    const { current, pageSize } = ctx.query
+    console.log(current)
+    console.log(pageSize)
+    const res = await mdTypeModel.findAll({ 
+      limit: +pageSize, //每页10条
+      offset: (+current - 1) * +pageSize, //第x页*每页个数  
     })
+    console.log('res=>', res)
     ctx.body = {
       httpCode: 200,
       result: res,
