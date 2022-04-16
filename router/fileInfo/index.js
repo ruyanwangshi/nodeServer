@@ -1,25 +1,17 @@
 // const { getFileInfo } = require('../../static')
 const mdListModel = require('../../mysql/model/mdList')
-
+const initResultMsg = require('../../utils/initResultMsg')
 
 async function GetFileInfo(ctx, next) {
     
   try {
     const file = ctx.request.body
     const res = await getFileInfo('mdfile', file);
-    ctx.body = {
-      httpCode: 200,
-      result: res,
-      Message: '请求成功',
-      success: true,
-    }
+    ctx.body = initResultMsg(true, res)
+    
   } catch (e) {
     console.log(e)
-    ctx.body = {
-      httpCode: 400,
-      Message: '请求失败',
-      success: false,
-    }
+    ctx.body = initResultMsg(false, null)
   }
   next()
 }

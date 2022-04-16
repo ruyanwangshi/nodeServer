@@ -1,6 +1,6 @@
 const { pwd } = require('../pwd/contant')
 module.exports = {
-  database: 'blog_dev', // 使用哪个数据库
+  database: 'blog', // 使用哪个数据库
   username: 'root', // 用户名
   password: pwd, // 口令
   host: '127.0.0.1', // 主机名

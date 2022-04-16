@@ -1,5 +1,6 @@
 // const { getTypeFileList } = require('../../static')
 const mdListModel  = require('../../mysql/model/mdList')
+const initResultMsg = require('../../utils/initResultMsg')
 
 async function GetTypeFileList(ctx, next) {
   const { type } = ctx.request.body
@@ -11,26 +12,12 @@ async function GetTypeFileList(ctx, next) {
       }
     })
     if (type) {
-      ctx.body = {
-        httpCode: 200,
-        result: result,
-        Message: '请求成功',
-        success: true,
-      }
+      ctx.body = initResultMsg(true, result)
     } else {
-      ctx.body = {
-        httpCode: 200,
-        result: 'name是必传字段',
-        Message: '请求成功',
-        success: false,
-      }
+      ctx.body = initResultMsg(false, null, 'name是必传字段')
     }
   } catch (e) {
-    ctx.body = {
-      httpCode: 400,
-      Message: '请求失败',
-      success: false,
-    }
+    ctx.body = initResultMsg(false, null)
   }
   next()
 }

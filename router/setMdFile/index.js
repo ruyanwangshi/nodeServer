@@ -18,7 +18,7 @@ async function setMdFile(ctx, next) {
           type: typeName,
         },
       })
-      if (!!isSave.length) {
+      if (isSave.length) {
         console.log('isSave=>', isSave)
         ctx.body = initResultMsg(false, null, '文章名,和类型已重复！')
       } else {
@@ -48,6 +48,7 @@ async function setMdFile(ctx, next) {
           })
           ctx.body = initResultMsg(true)
         } else {
+          
           await Promise.all([mdType.create({
             type: typeName,
             cTime: new Date(),

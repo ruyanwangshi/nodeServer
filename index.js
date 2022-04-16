@@ -7,6 +7,7 @@ const server = require('koa-static')
 const cors = require('koa-cors')
 const Router = require('./router')
 const bodyparser = require('koa-bodyparser')
+const os = require('os') // 操作系统模块
 // const initMySql = require('./mysql')
 const app = new koa()
 app.use(logger())
@@ -29,9 +30,20 @@ app.use(server(path.join(__dirname, '/public')))
 //     console.log(err)
 //   })
 
-  app.use(Router.routes())
-  app.use(Router.allowedMethods())
+app.use(Router.routes())
+app.use(Router.allowedMethods())
 
-app.listen(3001, () => {
-  console.log('192.168.31.12:3000')
+const httpInfo = os.networkInterfaces()
+let ip = '0.0.0.0'
+let post = '3001'
+if(httpInfo.WLAN) {
+  httpInfo.WLAN.forEach(item => {
+    if(item.family === 'IPv4') {
+      ip = item.address
+    }
+  })
+}
+
+app.listen(post, () => {
+  console.log(`${ip}:${post}`)
 })
